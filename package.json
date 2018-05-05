@@ -20,6 +20,7 @@
     "express-jwt": "^5.3.1",
     "express-passport": "^0.1.0",
     "express-ws": "^3.0.0",
+    "http": "0.0.0",
     "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.1",
     "passport-jwt": "^4.0.0",
@@ -28,12 +29,15 @@
     "passport-oauth2": "^1.4.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0"
+    "@babel/cli": "^7.0.0-beta.46",
+    "@babel/core": "^7.0.0-beta.46",
+    "@babel/polyfill": "^7.0.0-beta.46",
+    "@babel/preset-env": "^7.0.0-beta.46"
   },
   "scripts": {
-    "dev": "set NODE_ENV=development && nodemon -w src --exec \"babel-node src --presets env\" && echo %NODE_ENV%",
-    "devLinux": "set NODE_ENV=development nodemon -w src --exec \"babel src --presets env\"",
-    "build": "babel src -s -D -d dist --presets env",
+    "dev": "set NODE_ENV=development && nodemon -w src --exec \"babel-node src \" && echo %NODE_ENV%",
+    "devLinux": "set NODE_ENV=development nodemon -w src --exec \"babel src \"",
+    "build": "babel src -s -D -d dist ",
     "prestart": "npm run -s build",
     "lint": "eslint src",
     "start": "set NODE_ENV=production pm2 start dist",
