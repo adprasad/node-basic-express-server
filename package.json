@@ -1,0 +1,42 @@
+{
+  "name": "basic-express-server",
+  "version": "0.0.1",
+  "description": "Seed project for API server using REST or GraphQL concepts. Should include security and data layer obstraction.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adprasad/node-basic-express-server.git"
+  },
+  "author": "A. D. Prasad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adprasad/node-basic-express-server/issues"
+  },
+  "homepage": "https://github.com/adprasad/node-basic-express-server#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "express-jwt": "^5.3.1",
+    "express-passport": "^0.1.0",
+    "express-ws": "^3.0.0",
+    "passport": "^0.4.0",
+    "passport-http-bearer": "^1.0.1",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "passport-oauth1": "^1.1.0",
+    "passport-oauth2": "^1.4.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0"
+  },
+  "scripts": {
+    "dev": "set NODE_ENV=development && nodemon -w src --exec \"babel-node src --presets es2015,stage-0\" && echo %NODE_ENV%",
+    "devLinux": "set NODE_ENV=development nodemon -w src --exec \"babel src --presets es2015,stage-0\"",
+    "build": "babel src -s -D -d dist --presets es2015,stage-0",
+    "prestart": "npm run -s build",
+    "lint": "eslint src",
+    "start": "set NODE_ENV=production pm2 start dist",
+    "startLinux": "set NODE_ENV=production pm2 start dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
