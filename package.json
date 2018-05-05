@@ -15,6 +15,7 @@
   "homepage": "https://github.com/adprasad/node-basic-express-server#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",
     "express-passport": "^0.1.0",
@@ -30,9 +31,9 @@
     "babel-cli": "^6.26.0"
   },
   "scripts": {
-    "dev": "set NODE_ENV=development && nodemon -w src --exec \"babel-node src --presets es2015,stage-0\" && echo %NODE_ENV%",
-    "devLinux": "set NODE_ENV=development nodemon -w src --exec \"babel src --presets es2015,stage-0\"",
-    "build": "babel src -s -D -d dist --presets es2015,stage-0",
+    "dev": "set NODE_ENV=development && nodemon -w src --exec \"babel-node src --presets env\" && echo %NODE_ENV%",
+    "devLinux": "set NODE_ENV=development nodemon -w src --exec \"babel src --presets env\"",
+    "build": "babel src -s -D -d dist --presets env",
     "prestart": "npm run -s build",
     "lint": "eslint src",
     "start": "set NODE_ENV=production pm2 start dist",
