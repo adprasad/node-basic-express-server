@@ -3,7 +3,9 @@ import http from 'http';
 import https from 'https';
 import fs from 'fs';
 import bodyParser from 'body-parser';
+import session from 'express-session';
 // END OF GENERAL IMPORTS
+import passport from './middleware/authorization/passport.config';
 import router from './routes';
 import secure_router from './secure_routes';
 // END of APP IMPORTS
@@ -20,15 +22,35 @@ if (envCfg.error) {
 const PORT = process.env.XPORT;
 const SECURE_PORT = process.env.XSPORT;
 console.debug(`Environment Configured: \n${envCfg.parsed}`);
-/**
- * Configure Routing
- */
-
 
 /**
  * setup listening express and bodyParser for server
  */
 app.server = http.createServer(app);
+app.use(bodyParser.json({
+    limit: process.env.BODY_LIMIT
+}));
+
+// Configure security
+app.use(session({
+    secret: process.env.SESS_SECRET,
+    resave: false,
+    saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session())
+
+// Configure healthcheck routes
+app.use(function (err, req, res, next) {
+    if( process.env.env === 'development'){
+        console.error(err.stack);
+    }
+    res.status( err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
+});
 // CONFIGURE SECURE SERVER
 if (process.env.ENABLE_SSL === true || process.env.ENABLE_SSL === 'true') {
     const options = {
@@ -40,31 +62,19 @@ if (process.env.ENABLE_SSL === true || process.env.ENABLE_SSL === 'true') {
     app_secure.use(bodyParser.json({
         limit: process.env.BODY_LIMIT
     }));
-    
-    // Configure security
+
+    // Configure routing
     app_secure.use('/v1', secure_router);
 
-    // Configure healthcheck routes
     app_secure.use(function (err, req, res, next) {
         console.error(err.stack);
         res.status(500).send('Server error occured.');
     });    
+    app_secure.all('**', )
     app_secure.server.listen(SECURE_PORT, () => {
         console.info(`Server is running at ${app_secure.server.address().port}`);
     });
 }
-
-app.use(bodyParser.json({
-    limit: process.env.BODY_LIMIT
-}));
-
-// Configure security
-
-// Configure healthcheck routes
-app.use(function (err, req, res, next) {
-    console.error(err.stack);
-    res.status(500).send('Server error occured.');
-});
 
 app.use('/v1', router);
 // TODO: Middleware for security

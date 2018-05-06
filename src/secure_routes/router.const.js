@@ -1,3 +1,5 @@
 export const BASE_ROUTER_PATH =  {
-    HEALTH: '/health'
+    HEALTH: '/health',
+    GOOGLE: '/auth/google',
+    AUTH: '/auth/'
 };
