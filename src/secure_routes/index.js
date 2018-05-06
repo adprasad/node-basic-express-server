@@ -7,7 +7,7 @@ import auth from './auth';
 
 let secure_router = express();
 
-secure_router.use(BASE_ROUTER_PATH.HEALTH, health());
+secure_router.use(BASE_ROUTER_PATH.HEALTH, health);
 secure_router.use(BASE_ROUTER_PATH.GOOGLE, google);
 secure_router.use(BASE_ROUTER_PATH.AUTH, auth);
 

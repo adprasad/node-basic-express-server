@@ -34,7 +34,12 @@
     "@babel/cli": "^7.0.0-beta.46",
     "@babel/core": "^7.0.0-beta.46",
     "@babel/polyfill": "^7.0.0-beta.46",
-    "@babel/preset-env": "^7.0.0-beta.46"
+    "@babel/preset-env": "^7.0.0-beta.46",
+    "chai": "4.1.2",
+    "chai-http": "^4.0.0",
+    "chia": "0.0.1",
+    "mocha": "^5.1.1",
+    "request": "^2.85.0"
   },
   "scripts": {
     "dev": "set NODE_ENV=development && nodemon -w src --exec \"babel-node src \" && echo %NODE_ENV%",
@@ -44,6 +49,7 @@
     "lint": "eslint src",
     "start": "set NODE_ENV=production pm2 start dist",
     "startLinux": "set NODE_ENV=production pm2 start dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --reporter landing --recursive",
+    "testDebug": "mocha --reporter spec --inspect"
   }
 }
