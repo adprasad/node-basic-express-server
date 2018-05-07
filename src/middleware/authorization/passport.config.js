@@ -1,30 +1,15 @@
 import passport from 'passport';
-import GoogleStrategy from 'passport-google-oauth20';
+import GOOGLE_STRATEGY from './google-passport.config';
 
-import dotenv from 'dotenv';
+passport.use(GOOGLE_STRATEGY);
+passport.serializeUser(function (user, done) {
+    done(null, user.id);
+});
 
-const authCfg = dotenv.config({path: './src/middleware/authorization/.env'});
-if (authCfg.error) {
-    console.error("Unable to configure environment");
-    throw authCfg.error;
-} else {
-    console.debug(authCfg);
-}
-
-const GOOGLE_OPTIONS = {
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    returnURL: '/auth/google/callback'
-};
-
-passport.use(new GoogleStrategy(GOOGLE_OPTIONS,
-    function (accessToken, refreshToken, profile, cb) {
-        User.findOrCreate({
-            googleId: profile.id
-        }, function (err, user) {
-            return cb(err, user);
-        });
-    }
-));
-
-export default passport;
+passport.deserializeUser(function (id, done) {
+    User.findById(id, function (err, user) {
+        done(err, user);
+    });
+});
+///export default passport;
+module.exports = passport;

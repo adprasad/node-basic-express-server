@@ -1,23 +1,25 @@
-import {
-    Router
-} from 'express';
-import passport from '../middleware/authorization/passport.config';
-import ensureAuthenticated from './auth';
+import Router from 'express';
 
-export default () => {
-    let api = Router();
-    api.get('/auth/google',
-        ensureAuthenticated(),
+export default (passport) => {
+    let api = Router({mergeParams: true});
+    console.info("passport:");
+    console.info(passport);
+    api.get('/',
         passport.authenticate('google', {
-            scope: ['profile']
-        }));
-    api.get('/auth/google/callback',
+            scope: ['openid','email','profile']
+        }), 
+        function(req, res){
+            console.info("According to documentations we should never get into this function.");
+            res.json({google: true})
+        });
+
+    api.get('/callback',
         passport.authenticate('google', {
-            failureRedirect: '/login'
+            failureRedirect: '/v1/health'
         }),
         function (req, res) {
-            console.log(req);
-            res.redirect('/');
+            console.info(req);
+            res.json(req.user);
         });
     return api;
 };

@@ -1,5 +1,21 @@
-export const BASE_ROUTER_PATH =  {
-    HEALTH: '/health',
-    GOOGLE: '/auth/google',
-    AUTH: '/auth/'
+export function SecureRoutes(parentRoute = '/') {
+    let route = '';
+    switch(parentRoute){
+        case 'health':{
+            route = '/' + parentRoute;
+            break;
+        }
+        case 'auth':{
+            route = '/auth';
+            break;
+        }
+        case 'google':{
+            route = '/auth/google';
+            break;
+        }
+        default: {
+            route = parentRoute;
+        }
+    }
+    return route;
 };

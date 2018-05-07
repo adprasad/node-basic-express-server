@@ -57,26 +57,14 @@ if (process.env.ENABLE_SSL === true || process.env.ENABLE_SSL === 'true') {
         key: fs.readFileSync(process.env.TSL_KEY_FILE),
         cert: fs.readFileSync(process.env.TSL_CERT_FILE)
     }
-    app_secure.server = https.createServer(options, app);
-    // TODO: Configure secure routes
-    app_secure.use(bodyParser.json({
-        limit: process.env.BODY_LIMIT
-    }));
-
-    // Configure routing
-    app_secure.use('/v1', secure_router);
-
-    app_secure.use(function (err, req, res, next) {
-        console.error(err.stack);
-        res.status(500).send('Server error occured.');
-    });    
-    app_secure.all('**', )
-    app_secure.server.listen(SECURE_PORT, () => {
-        console.info(`Server is running at ${app_secure.server.address().port}`);
+    https.createServer(options, app).listen(SECURE_PORT, () => {
+        console.info(`Server is running at ${SECURE_PORT}`);
     });
+    app.use('/v1', secure_router(passport) );
 }
 
 app.use('/v1', router);
+
 // TODO: Middleware for security
 app.server.listen(PORT, () => {
     console.info(`Server is running at ${app.server.address().port}`);

@@ -1,6 +1,6 @@
 import {Router} from 'express';
 
-export default( ) => {
+export default ( ) => {
     let api = Router();
     api.get('/', function(req, res){
         try{
