@@ -32,13 +32,15 @@ app.use(bodyParser.json({
 }));
 
 // Configure security
+/* Removing session to see if we can get this going with jwt-tokens
 app.use(session({
     secret: process.env.SESS_SECRET,
     resave: false,
     saveUninitialized: true
 }));
+*/
 app.use(passport.initialize());
-app.use(passport.session())
+// app.use(passport.session()); // Removing session to see if we can get this going with jwt-tokens
 
 // Configure healthcheck routes
 app.use(function (err, req, res, next) {
